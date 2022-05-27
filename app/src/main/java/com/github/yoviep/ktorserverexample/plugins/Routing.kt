@@ -1,8 +1,11 @@
 package com.github.yoviep.ktorserverexample.plugins
 
+import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.engine.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import kotlinx.serialization.Serializable
 
 
 /**
@@ -13,10 +16,21 @@ import io.ktor.server.routing.*
 
 fun Application.configureRouting() {
 
+    install(ShutDownUrl.ApplicationCallPlugin) {
+        shutDownUrl = "/shutdown"
+        //exitCodeSupplier = { 0 }
+    }
+
     routing {
 
         get("/") {
-            call.respondText("Congratulation... you access ktor server")
+            call.respondText(
+                text = "Congratulation... you access ktor server",
+                status = HttpStatusCode.OK
+            )
         }
     }
 }
+
+@Serializable
+data class Person(val name: String)
