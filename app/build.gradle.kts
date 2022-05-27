@@ -49,6 +49,7 @@ android {
         resources.excludes.apply {
             add("META-INF/INDEX.LIST")
             add("META-INF/io.netty.versions.properties")
+            add("META-INF/gradle/incremental.annotation.processors")
         }
     }
 }
@@ -85,9 +86,12 @@ dependencies {
 
     // android hilt
     implementation("com.google.dagger:hilt-android:2.41")
-    implementation("com.google.dagger:hilt-compiler:2.41")
-    implementation("androidx.hilt:hilt-compiler:1.0.0")
+    kapt("com.google.dagger:hilt-compiler:2.41")
     // Hilt Worker
+    kapt("androidx.hilt:hilt-compiler:1.0.0")
     implementation("androidx.hilt:hilt-work:1.0.0")
+}
 
+kapt {
+    correctErrorTypes = true
 }

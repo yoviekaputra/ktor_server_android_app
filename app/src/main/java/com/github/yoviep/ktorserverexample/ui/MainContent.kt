@@ -1,4 +1,4 @@
-package com.github.yoviep.ktorserverexample
+package com.github.yoviep.ktorserverexample.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Button

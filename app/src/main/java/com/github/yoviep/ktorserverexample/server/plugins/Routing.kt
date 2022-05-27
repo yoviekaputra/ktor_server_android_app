@@ -1,4 +1,4 @@
-package com.github.yoviep.ktorserverexample.plugins
+package com.github.yoviep.ktorserverexample.server.plugins
 
 import io.ktor.http.*
 import io.ktor.server.application.*
