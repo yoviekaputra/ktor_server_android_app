@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.runtime.collectAsState
+import com.github.yoviep.ktorserverexample.ui.models.EventState
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -15,9 +17,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
+            val uiState = viewModel.uiState.collectAsState()
+
             MainContent(
+                uiState = uiState.value,
                 onServerStartup = {
-                    viewModel.onServerStart()
+                    viewModel.onEventState(EventState.OnServerStater)
                 }
             )
         }

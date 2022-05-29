@@ -6,6 +6,7 @@ import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
+import androidx.work.workDataOf
 import com.github.yoviep.ktorserverexample.helper.NotificationHelper
 import com.github.yoviep.ktorserverexample.server.plugins.configureRouting
 import com.github.yoviep.ktorserverexample.server.plugins.configureSerialization
@@ -27,21 +28,24 @@ class ServerWorker @AssistedInject constructor(
     @Assisted params: WorkerParameters
 ) : CoroutineWorker(context, params) {
 
+    private val server by lazy {
+        embeddedServer(Netty, port = 9650) {
+            configureRouting()
+            configureSerialization()
+        }
+    }
+
     override suspend fun doWork(): Result {
         return try {
             val notification = createForeground()
             setForeground(notification)
 
-            embeddedServer(Netty, port = 9650, host = "0.0.0.0") {
-                configureRouting()
-                configureSerialization()
-            }.start(wait = true)
+            server.start(wait = true)
 
-            Log.d(ServerWorker::class.simpleName, "started")
             Result.success()
         } catch (e: Throwable) {
             Log.e(ServerWorker::class.simpleName, e.message, e)
-            Result.failure()
+            Result.failure(workDataOf("error" to e))
         }
     }
 
@@ -60,6 +64,6 @@ class ServerWorker @AssistedInject constructor(
                 showWhen = true
             )
         ).run {
-            ForegroundInfo(0, this)
+            ForegroundInfo(1, this)
         }
 }
