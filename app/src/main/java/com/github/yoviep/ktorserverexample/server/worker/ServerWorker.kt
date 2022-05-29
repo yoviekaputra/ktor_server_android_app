@@ -3,8 +3,8 @@ package com.github.yoviep.ktorserverexample.server.worker
 import android.content.Context
 import android.util.Log
 import androidx.hilt.work.HiltWorker
-import androidx.work.CoroutineWorker
 import androidx.work.ForegroundInfo
+import androidx.work.Worker
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
 import com.github.yoviep.ktorserverexample.helper.NotificationHelper
@@ -14,6 +14,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
+import java.net.BindException
 
 
 /**
@@ -26,7 +27,9 @@ import io.ktor.server.netty.*
 class ServerWorker @AssistedInject constructor(
     @Assisted private val context: Context,
     @Assisted params: WorkerParameters
-) : CoroutineWorker(context, params) {
+) : Worker(context, params) {
+
+    private val tag = ServerWorker::class.simpleName
 
     private val server by lazy {
         embeddedServer(Netty, port = 9650) {
@@ -35,24 +38,40 @@ class ServerWorker @AssistedInject constructor(
         }
     }
 
-    override suspend fun doWork(): Result {
-        return try {
-            val notification = createForeground()
-            setForeground(notification)
+    override fun doWork(): Result = runCatching {
+        val notification = createForeground()
+        setForegroundAsync(notification)
 
+        try {
             server.start(wait = true)
-
-            Result.success()
         } catch (e: Throwable) {
-            Log.e(ServerWorker::class.simpleName, e.message, e)
-            Result.failure(workDataOf("error" to e))
+            when (e) {
+                is BindException -> {
+                    server.stopServerOnCancellation().invokeOnCompletion {
+                        Log.d(tag, "stopServerOnCancellation: ", it)
+                        server.start(wait = true)
+                    }
+                }
+                else -> throw e
+            }
         }
+
+        Result.success()
+    }.getOrElse { e ->
+        Log.e(tag, e.message, e)
+        server.stop()
+        Result.failure(workDataOf("error" to e))
+    }
+
+    override fun onStopped() {
+        super.onStopped()
+        server.stop()
     }
 
     private fun createForeground(): ForegroundInfo =
         NotificationHelper.create(
-            context,
-            NotificationHelper.Option(
+            context = context,
+            option = NotificationHelper.Option(
                 "Ktor Server App",
                 "Ktor Server is running",
                 NotificationHelper.Channel(
