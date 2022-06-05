@@ -8,6 +8,12 @@ Tech Stack
 4. Work Manager as background worker for server wrapper on background
 5. Android Hilt as dependency injection
 
+Architecture
+I was inspired by Netflix in <a src="https://netflixtechblog.com/ready-for-changes-with-hexagonal-architecture-b315ec967749"> article,
+There talking about Hexagonal Architecture, so this is the result of my experiment in ktor server implementation.
+But, this approach is more of a Clean Architecture, like that.
+<img src="/previews/preview5.png" width="80%">
+
 Preview
 1. App as Server
 <img src="/previews/preview4.jpg" width="80%">
