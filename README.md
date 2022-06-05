@@ -12,6 +12,6 @@ Preview
 1. App as Server
 <img src="/previews/preview4.jpg" width="80%">
 2. Client
-<img src="/previews/preview1.jpg" width="80%">
-<img src="/previews/preview2.jpg" width="80%">
-<img src="/previews/preview3.jpg" width="80%">
+<img src="/previews/preview1.png" width="80%">
+<img src="/previews/preview2.png" width="80%">
+<img src="/previews/preview3.png" width="80%">
