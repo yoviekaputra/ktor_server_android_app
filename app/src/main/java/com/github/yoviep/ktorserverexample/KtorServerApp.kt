@@ -1,6 +1,7 @@
 package com.github.yoviep.ktorserverexample
 
 import android.app.Application
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import dagger.hilt.android.HiltAndroidApp
@@ -18,6 +19,11 @@ class KtorServerApp : Application(), Configuration.Provider {
 
     @Inject
     lateinit var workWorkerFactory: HiltWorkerFactory
+
+    override fun onCreate() {
+        super.onCreate()
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+    }
 
     override fun getWorkManagerConfiguration() = Configuration.Builder()
         .setWorkerFactory(workWorkerFactory)

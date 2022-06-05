@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.github.yoviep.ktorserverexample">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -14,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KtorServerExample">
         <activity
-            android:name=".ui.MainActivity"
+            android:name="com.github.yoviep.ktorserverexample.presentations.ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,6 +23,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            tools:node="remove"
+            android:exported="false" />
     </application>
 
 </manifest>
