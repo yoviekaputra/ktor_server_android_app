@@ -9,7 +9,7 @@ Tech Stack
 5. Android Hilt as dependency injection
 
 Architecture
-I was inspired by Netflix in <a src="https://netflixtechblog.com/ready-for-changes-with-hexagonal-architecture-b315ec967749"> article,
+I was inspired by Netflix in [a link](https://netflixtechblog.com/ready-for-changes-with-hexagonal-architecture-b315ec967749) article,
 There talking about Hexagonal Architecture, so this is the result of my experiment in ktor server implementation.
 But, this approach is more of a Clean Architecture, like that.
 <img src="/previews/preview5.png" width="80%">
