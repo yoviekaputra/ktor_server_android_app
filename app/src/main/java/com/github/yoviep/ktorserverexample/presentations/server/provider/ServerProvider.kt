@@ -2,8 +2,11 @@ package com.github.yoviep.ktorserverexample.presentations.server.provider
 
 import com.github.yoviep.ktorserverexample.presentations.server.controller.main.MainController
 import com.github.yoviep.ktorserverexample.presentations.server.controller.person.PersonController
+import com.github.yoviep.ktorserverexample.presentations.server.plugins.RequestLoggingPlugin
 import com.github.yoviep.ktorserverexample.presentations.server.plugins.configureSerialization
+import com.github.yoviep.ktorserverexample.presentations.server.plugins.configureTerminalLogger
 import com.github.yoviep.ktorserverexample.presentations.server.routing.main.configureRouting
+import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import javax.inject.Inject
@@ -29,6 +32,7 @@ class ServerProvider @Inject constructor(
                 personController = personController
             )
             configureSerialization()
+            configureTerminalLogger()
         }
     }
 
