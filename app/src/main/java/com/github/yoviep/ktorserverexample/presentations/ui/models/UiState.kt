@@ -4,5 +4,6 @@ import androidx.compose.runtime.Immutable
 
 @Immutable
 data class UiState(
-    val serverStarted: Boolean = false
+    val serverStarted: Boolean = false,
+    val logging: String = ""
 )

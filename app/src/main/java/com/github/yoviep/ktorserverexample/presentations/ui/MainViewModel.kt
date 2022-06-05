@@ -75,7 +75,24 @@ class MainViewModel @Inject constructor(
         )
 
         _uiState.update {
-            it.copy(serverStarted = true)
+            it.copy(
+                serverStarted = true,
+            )
+        }
+    }
+
+    fun onLogChanges(log: String) {
+        val logging = _uiState.value.logging
+        val splitLogging = logging.split("\n").toMutableList()
+
+        splitLogging.addAll(log.split("\n"))
+
+        while (splitLogging.size > 999) {
+            splitLogging.removeFirst()
+        }
+
+        _uiState.update {
+            it.copy(logging = splitLogging.joinToString("\n"))
         }
     }
 }

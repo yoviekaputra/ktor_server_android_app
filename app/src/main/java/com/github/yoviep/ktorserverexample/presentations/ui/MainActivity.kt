@@ -5,6 +5,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.collectAsState
+import com.github.yoviep.ktorserverexample.presentations.server.plugins.uiLogger
 import com.github.yoviep.ktorserverexample.presentations.ui.models.EventState
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -15,6 +16,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        uiLogger.observe(this) {
+            viewModel.onLogChanges(it)
+        }
 
         setContent {
             val uiState = viewModel.uiState.collectAsState()

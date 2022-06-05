@@ -12,8 +12,8 @@ import io.ktor.server.plugins.*
  * @project KtorServerExample
  **/
 
-private val _uiLogger = MutableLiveData<ArrayList<String>>()
-val uiLogger: LiveData<ArrayList<String>> get() = _uiLogger
+private val _uiLogger = MutableLiveData<String>()
+val uiLogger: LiveData<String> get() = _uiLogger
 
 val RequestLoggingPlugin = createApplicationPlugin(name = "RequestLoggingPlugin") {
     onCall {  call ->
@@ -41,10 +41,7 @@ val RequestLoggingPlugin = createApplicationPlugin(name = "RequestLoggingPlugin"
             }
 
             println(log.toString())
-
-            val memory = _uiLogger.value ?: ArrayList()
-            memory.add(0, log.toString())
-            _uiLogger.postValue(memory)
+            _uiLogger.postValue(log.toString())
         }
     }
 
@@ -73,10 +70,7 @@ val RequestLoggingPlugin = createApplicationPlugin(name = "RequestLoggingPlugin"
             }
 
             println(log.toString())
-
-            val memory = _uiLogger.value ?: ArrayList()
-            memory.add(0, log.toString())
-            _uiLogger.postValue(memory)
+            _uiLogger.postValue(log.toString())
         }
     }
 }
