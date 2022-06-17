@@ -14,6 +14,7 @@ There talking about Hexagonal Architecture, so this is the result of my experime
 But, this approach is more of a Clean Architecture, like that.
 <img src="/previews/preview5.png" width="80%">
 
+
 Preview
 1. App as Server
 <img src="/previews/preview4.jpg" width="80%">
